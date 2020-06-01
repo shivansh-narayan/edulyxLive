@@ -10,9 +10,9 @@ const intlMessages = defineMessages({
     id: 'app.video.joinVideo',
     description: 'Join video button label',
   },
-  leaveVideo: {
-    id: 'app.video.leaveVideo',
-    description: 'Leave video button label',
+  toggleVideo: {
+    id: 'app.video.toggleVideo',
+    description: 'Toggle video label',
   },
   videoButtonDesc: {
     id: 'app.video.videoButtonDesc',
@@ -53,11 +53,16 @@ const JoinVideoButton = ({
         'warning',
       );
     }
+    if (isSharingVideo) {
+      handleCloseVideo();
+    }
     handleJoinVideo();
+
+    return true;
   };
 
   const sharingVideoLabel = isSharingVideo
-    ? intl.formatMessage(intlMessages.leaveVideo) : intl.formatMessage(intlMessages.joinVideo);
+    ? 'Toggle webcam' : intl.formatMessage(intlMessages.joinVideo);
 
   const disabledLabel = isDisabled
     ? intl.formatMessage(intlMessages.videoLocked) : sharingVideoLabel;
@@ -66,11 +71,11 @@ const JoinVideoButton = ({
     <Button
       label={disabledLabel}
       className={cx(styles.button, isSharingVideo || styles.btn)}
-      onClick={isSharingVideo ? handleCloseVideo : verifyIOS}
+      onClick={verifyIOS}
       hideLabel
       aria-label={intl.formatMessage(intlMessages.videoButtonDesc)}
       color={isSharingVideo ? 'primary' : 'default'}
-      icon={isSharingVideo ? 'video' : 'video_off'}
+      icon={isSharingVideo ? 'refresh' : 'video_off'}
       ghost={!isSharingVideo}
       size="lg"
       circle

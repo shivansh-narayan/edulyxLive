@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { injectIntl } from 'react-intl';
 import { withModalMounter } from '/imports/ui/components/modal/service';
 import VideoPreviewContainer from '/imports/ui/components/video-preview/container';
 import { notify } from '/imports/ui/services/notification';
 import JoinVideoButton from './component';
+import ToggleVideoButton from './video-end';
 import VideoButtonService from './service';
 
 import {
@@ -27,10 +28,19 @@ const JoinVideoOptionsContainer = (props) => {
   const mountPreview = () => { mountModal(<VideoPreviewContainer fromInterface />); };
 
   return !isMobileNative && (
-  <JoinVideoButton {...{
-    handleJoinVideo: mountPreview, handleCloseVideo, isSharingVideo, isDisabled, ...restProps,
-  }}
-  />
+    <Fragment>
+      <JoinVideoButton {...{
+        handleJoinVideo: mountPreview, handleCloseVideo, isSharingVideo, isDisabled, ...restProps,
+      }}
+      />
+
+      <ToggleVideoButton {...{
+        handleJoinVideo: mountPreview, handleCloseVideo, isSharingVideo, isDisabled, ...restProps,
+      }}
+      />
+    </Fragment>
+
+
   );
 };
 

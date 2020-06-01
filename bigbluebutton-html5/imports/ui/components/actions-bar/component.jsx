@@ -99,6 +99,7 @@ class ActionsBar extends PureComponent {
             screenshareDataSavingSetting,
           }}
           />
+
         </div>
         <div className={styles.right}>
           {isLayoutSwapped
