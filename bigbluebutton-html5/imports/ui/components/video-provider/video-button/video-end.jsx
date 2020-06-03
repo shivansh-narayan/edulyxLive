@@ -35,7 +35,7 @@ const propTypes = {
   handleCloseVideo: PropTypes.func.isRequired,
 };
 
-const ToggleVideoButton = ({
+const VideoEndButton = ({
   intl,
   isSharingVideo,
   isDisabled,
@@ -71,5 +71,5 @@ const ToggleVideoButton = ({
   );
 };
 
-ToggleVideoButton.propTypes = propTypes;
-export default injectIntl(memo(ToggleVideoButton));
+VideoEndButton.propTypes = propTypes;
+export default injectIntl(memo(VideoEndButton));

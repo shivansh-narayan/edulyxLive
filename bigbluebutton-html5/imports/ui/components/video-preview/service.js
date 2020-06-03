@@ -4,6 +4,7 @@ export default {
   },
   webcamDeviceId: () => Session.get('WebcamDeviceId'),
   changeProfile: (profileId) => {
+    console.error(`${profileId}ye hai`);
     Session.set('WebcamProfileId', profileId);
   },
 };

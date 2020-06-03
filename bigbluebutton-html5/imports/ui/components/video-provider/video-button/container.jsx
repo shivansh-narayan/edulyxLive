@@ -5,9 +5,9 @@ import { withModalMounter } from '/imports/ui/components/modal/service';
 import VideoPreviewContainer from '/imports/ui/components/video-preview/container';
 import { notify } from '/imports/ui/services/notification';
 import JoinVideoButton from './component';
-import ToggleVideoButton from './video-end';
+import VideoEndButton from './video-end';
 import VideoButtonService from './service';
-
+import ToggleVideoButton from './toggle';
 import {
   validIOSVersion,
 } from '/imports/ui/components/app/service';
@@ -29,12 +29,21 @@ const JoinVideoOptionsContainer = (props) => {
 
   return !isMobileNative && (
     <Fragment>
-      <JoinVideoButton {...{
-        handleJoinVideo: mountPreview, handleCloseVideo, isSharingVideo, isDisabled, ...restProps,
-      }}
-      />
+      {!isSharingVideo ? (
+        <JoinVideoButton {...{
+          handleJoinVideo: mountPreview, handleCloseVideo, isSharingVideo, isDisabled, ...restProps,
+        }}
+        />
+      )
+        : (
+          <ToggleVideoButton
+            {...{ isSharingVideo, handleJoinVideo, handleCloseVideo }}
+            fromInterface
+          />
+        )}
 
-      <ToggleVideoButton {...{
+
+      <VideoEndButton {...{
         handleJoinVideo: mountPreview, handleCloseVideo, isSharingVideo, isDisabled, ...restProps,
       }}
       />

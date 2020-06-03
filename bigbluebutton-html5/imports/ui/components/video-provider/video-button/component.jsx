@@ -75,11 +75,11 @@ const JoinVideoButton = ({
       hideLabel
       aria-label={intl.formatMessage(intlMessages.videoButtonDesc)}
       color={isSharingVideo ? 'primary' : 'default'}
-      icon={isSharingVideo ? 'refresh' : 'video_off'}
+      icon="video_off"
       ghost={!isSharingVideo}
       size="lg"
       circle
-      disabled={isDisabled}
+      // disabled={isDisabled}
     />
   );
 };
