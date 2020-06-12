@@ -9,6 +9,7 @@ import logger from '/imports/startup/client/logger';
 import Modal from '/imports/ui/components/modal/simple/component';
 import browser from 'browser-detect';
 import { styles } from './styles';
+import VideoService from '../video-provider/service';
 
 const CAMERA_PROFILES = Meteor.settings.public.kurento.cameraProfiles;
 
@@ -28,6 +29,7 @@ const propTypes = {
   resolve: PropTypes.func,
   hasMediaDevices: PropTypes.bool.isRequired,
   webcamDeviceId: PropTypes.string,
+
 };
 
 const defaultProps = {
@@ -314,6 +316,7 @@ class VideoPreview extends Component {
 
   stopTracks() {
     // console.log("in stop tracks");
+
     if (this.deviceStream) {
       // console.log("stopping tracks");
       this.deviceStream.getTracks().forEach((track) => {
@@ -323,27 +326,31 @@ class VideoPreview extends Component {
     }
   }
 
-  handleSelectWebcam(event) {
-    const webcamValue = event.target.value;
-
-    this.displayInitialPreview(webcamValue);
-  }
 
   handleSelectProfile(event) {
     const profileValue = event.target.value;
     const { webcamDeviceId } = this.state;
 
     const selectedProfile = CAMERA_PROFILES.find(profile => profile.id === profileValue);
-
+    // this.deviceStream = null
     this.displayPreview(webcamDeviceId, selectedProfile);
   }
 
+  handleSelectWebcam(event) {
+    const webcamValue = event.target.value;
+    this.displayInitialPreview(webcamValue);
+    VideoService.exitVideo();
+  }
+
   handleStartSharing() {
+    // VideoService.exitVideo()
     const { resolve, startSharing } = this.props;
     this.stopTracks();
     startSharing();
+
     if (resolve) resolve();
   }
+
 
   handleProceed() {
     const { resolve, closeModal } = this.props;
@@ -386,11 +393,14 @@ class VideoPreview extends Component {
       this.video.srcObject = null;
     }
     this.deviceStream = null;
+    // changeWebcam(deviceId);
+
 
     return navigator.mediaDevices.getUserMedia(constraints);
   }
 
   displayPreview(deviceId, profile) {
+    // this.stopTracks();
     const {
       changeProfile,
       skipVideoPreview,
@@ -400,9 +410,11 @@ class VideoPreview extends Component {
       selectedProfile: profile.id,
       isStartSharingDisabled: true,
       previewError: undefined,
+
     });
     changeProfile(profile.id);
     if (skipVideoPreview) return this.handleStartSharing();
+
 
     this.doGUM(deviceId, profile).then((stream) => {
       if (!this._isMounted) return;
@@ -410,8 +422,10 @@ class VideoPreview extends Component {
       this.setState({
         isStartSharingDisabled: false,
       });
-      this.video.srcObject = stream;
+      this.video.srcObject = stream;// changed here*/ window.URL.createObject(stream);
       this.deviceStream = stream;
+
+      // console.log("HELLLLOOOOOOOOOOOOOO" + stream)
     }).catch((error) => {
       logger.warn({
         logCode: 'video_preview_do_gum_preview_error',
@@ -556,6 +570,7 @@ class VideoPreview extends Component {
               previewError
                 ? (
                   <div>{previewError}</div>
+
                 )
                 : (
                   <video

@@ -257,8 +257,10 @@ class VideoProvider extends Component {
     const usersToConnect = usersSharingIds.filter(id => !usersConnected.includes(id));
     const usersToDisconnect = usersConnected.filter(id => !usersSharingIds.includes(id));
 
+
     usersToConnect.forEach(id => this.createWebRTCPeer(id, userId === id));
     usersToDisconnect.forEach(id => this.stopWebRTCPeer(id));
+    // this.updateCurrentWebcamsConnection(this.webRtcPeers);
   }
 
   componentDidUpdate(prevProps) {
@@ -578,7 +580,9 @@ class VideoProvider extends Component {
   }
 
   async createWebRTCPeer(id, shareWebcam) {
-    const { meetingId, sessionToken, voiceBridge, userId, userName } = this.props;
+    const {
+      meetingId, sessionToken, voiceBridge, userId, userName,
+    } = this.props;
     let iceServers = [];
     const role = shareWebcam ? 'share' : 'viewer';
 

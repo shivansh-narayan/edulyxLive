@@ -46,6 +46,7 @@ const JoinVideoButton = ({
   validIOSVersion,
 }) => {
   const verifyIOS = () => {
+    // handleCloseVideo();
     if (!validIOSVersion()) {
       return notify(
         intl.formatMessage(intlMessages.iOSWarning),
@@ -63,19 +64,33 @@ const JoinVideoButton = ({
     ? intl.formatMessage(intlMessages.videoLocked) : sharingVideoLabel;
 
   return (
-    <Button
-      label={disabledLabel}
-      className={cx(styles.button, isSharingVideo || styles.btn)}
-      onClick={isSharingVideo ? handleCloseVideo : verifyIOS}
-      hideLabel
-      aria-label={intl.formatMessage(intlMessages.videoButtonDesc)}
-      color={isSharingVideo ? 'primary' : 'default'}
-      icon={isSharingVideo ? 'video' : 'video_off'}
-      ghost={!isSharingVideo}
-      size="lg"
-      circle
-      disabled={isDisabled}
-    />
+    <div>
+      <Button
+      // label={disabledLabel}
+        className={cx(styles.button, isSharingVideo || styles.btn)}
+        onClick={/* isSharingVideo? handleCloseVideo: */verifyIOS}
+        hideLabel
+        aria-label=/* {intl.formatMessage(intlMessages.videoButtonDesc)} */"Swap Camera"
+        color="primary"
+        icon="video"
+     // ghost={!isSharingVideo}
+        size="lg"
+        circle
+      />
+      <Button
+      // label={disabledLabel}
+        className={cx(styles.button, isSharingVideo || styles.btn)}
+        onClick={isSharingVideo ? handleCloseVideo : null}
+        hideLabel
+        aria-label=/* {intl.formatMessage(intlMessages.videoButtonDesc)} */"Stop Camera"
+        color="primary"
+        icon="video"
+     // ghost={!isSharingVideo}
+        size="lg"
+        circle
+      />
+
+    </div>
   );
 };
 
