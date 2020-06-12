@@ -31,17 +31,15 @@ const intlMessages = defineMessages({
 const propTypes = {
   intl: intlShape.isRequired,
   isSharingVideo: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+
   handleJoinVideo: PropTypes.func.isRequired,
-  handleCloseVideo: PropTypes.func.isRequired,
+
 };
 
 const JoinVideoButton = ({
   intl,
   isSharingVideo,
-  isDisabled,
   handleJoinVideo,
-  handleCloseVideo,
   notify,
   validIOSVersion,
 }) => {
@@ -55,41 +53,24 @@ const JoinVideoButton = ({
       );
     }
     handleJoinVideo();
+    return true;
   };
 
-  const sharingVideoLabel = isSharingVideo
-    ? intl.formatMessage(intlMessages.leaveVideo) : intl.formatMessage(intlMessages.joinVideo);
-
-  const disabledLabel = isDisabled
-    ? intl.formatMessage(intlMessages.videoLocked) : sharingVideoLabel;
 
   return (
     <div>
       <Button
-      // label={disabledLabel}
-        className={cx(styles.button, isSharingVideo || styles.btn)}
-        onClick={/* isSharingVideo? handleCloseVideo: */verifyIOS}
-        hideLabel
-        aria-label=/* {intl.formatMessage(intlMessages.videoButtonDesc)} */"Swap Camera"
-        color="primary"
-        icon="video"
-     // ghost={!isSharingVideo}
-        size="lg"
-        circle
-      />
-      <Button
-      // label={disabledLabel}
-        className={cx(styles.button, isSharingVideo || styles.btn)}
-        onClick={isSharingVideo ? handleCloseVideo : null}
-        hideLabel
-        aria-label=/* {intl.formatMessage(intlMessages.videoButtonDesc)} */"Stop Camera"
-        color="primary"
-        icon="video"
-     // ghost={!isSharingVideo}
-        size="lg"
-        circle
-      />
 
+        className={cx(styles.button, isSharingVideo || styles.btn)}
+        onClick={verifyIOS}
+        hideLabel
+        aria-label={isSharingVideo ? 'Swap Camera' : 'Start Video'}
+        color="primary"
+        icon={isSharingVideo ? 'refresh' : 'video'}
+     // ghost={!isSharingVideo}
+        size="lg"
+        circle
+      />
     </div>
   );
 };
