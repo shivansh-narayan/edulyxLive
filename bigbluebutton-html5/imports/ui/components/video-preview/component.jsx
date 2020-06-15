@@ -230,8 +230,8 @@ class VideoPreview extends Component {
                 if (device.kind === 'videoinput') {
                   webcams.push(device);
                   if (!initialDeviceId
-                  || (webcamDeviceId && webcamDeviceId === device.deviceId)
-                  || device.deviceId === firstAllowedDeviceId) {
+                    || (webcamDeviceId && webcamDeviceId === device.deviceId)
+                    || device.deviceId === firstAllowedDeviceId) {
                     initialDeviceId = device.deviceId;
                   }
                 }
@@ -328,6 +328,7 @@ class VideoPreview extends Component {
 
 
   handleSelectProfile(event) {
+    console.error('Select Profile');
     const profileValue = event.target.value;
     const { webcamDeviceId } = this.state;
 
@@ -337,6 +338,7 @@ class VideoPreview extends Component {
   }
 
   handleSelectWebcam(event) {
+    console.error('Select Webcam');
     const webcamValue = event.target.value;
     this.displayInitialPreview(webcamValue);
     VideoService.exitVideo();
@@ -344,6 +346,7 @@ class VideoPreview extends Component {
 
   handleStartSharing() {
     // VideoService.exitVideo()
+    console.error('Start Sharing');
     const { resolve, startSharing } = this.props;
     this.stopTracks();
     startSharing();
@@ -353,6 +356,7 @@ class VideoPreview extends Component {
 
 
   handleProceed() {
+    console.error('Handle Procees');
     const { resolve, closeModal } = this.props;
     this.stopTracks();
     closeModal();
@@ -436,6 +440,7 @@ class VideoPreview extends Component {
       }, 'Error displaying final selection.');
       this.setState({ previewError: VideoPreview.handleGUMError(error) });
     });
+    return true;
   }
 
   handleJoinVideo() {
@@ -567,22 +572,22 @@ class VideoPreview extends Component {
           <div className={styles.content}>
             <div className={styles.videoCol}>
               {
-              previewError
-                ? (
-                  <div>{previewError}</div>
+                previewError
+                  ? (
+                    <div>{previewError}</div>
 
-                )
-                : (
-                  <video
-                    id="preview"
-                    className={styles.preview}
-                    ref={(ref) => { this.video = ref; }}
-                    autoPlay
-                    playsInline
-                    muted
-                  />
-                )
-            }
+                  )
+                  : (
+                    <video
+                      id="preview"
+                      className={styles.preview}
+                      ref={(ref) => { this.video = ref; }}
+                      autoPlay
+                      playsInline
+                      muted
+                    />
+                  )
+              }
             </div>
             {this.renderDeviceSelectors()}
           </div>
@@ -629,11 +634,13 @@ class VideoPreview extends Component {
               onClick={this.handleProceed}
               disabled={shouldDisableButtons}
             />
+            {console.error(VideoService.isSharing())}
             <Button
               color="primary"
               label={intl.formatMessage(intlMessages.startSharingLabel)}
               onClick={this.handleStartSharing}
-              disabled={isStartSharingDisabled || isStartSharingDisabled === null || shouldDisableButtons}
+              disabled={isStartSharingDisabled || isStartSharingDisabled === null
+                || shouldDisableButtons || VideoService.isSharing()}
             />
           </div>
         </div>
