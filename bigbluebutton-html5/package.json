@@ -44,7 +44,7 @@
     "eventemitter2": "~5.0.1",
     "fastdom": "^1.0.9",
     "fibers": "^3.1.1",
-    "flat": "~4.1.0",
+    "flat": "~5.0.1",
     "heapdump": "^0.3.15",
     "immutability-helper": "~2.8.1",
     "langmap": "0.0.16",
